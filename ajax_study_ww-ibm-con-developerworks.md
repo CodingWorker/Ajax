@@ -356,5 +356,311 @@ function statechange(){
 在很多应用程序中，生成 HEAD 请求并没有增加任何功能，甚至可能会导致请求速度变慢（通过强制生成一个 HEAD 请求来获取有关响应的数据，然后在使用一个 GET 或 POST 请求来真正获取响应）。然而，在出现您不确定有关脚本或服务器端组件的情况时，使用 HEAD 请求可以获取一些基本的数据，而不需要对响应数据真正进行处理，也不需要大量的带宽来发送响应。
 
 
+#第四部分 利用DOM进行WEB响应
+WEB程序员做什么？控制页面的标记结构
+标记就绪以后才能对其进行操作或设计样式。
+标记只为您的页面提供组织、框架
+浏览器将这些文本组织转化为对象，即文档对象
+文本标记的优点：
+        1、速度快
+        2、传输容易
+        3、统一格式
+        4、开发容易，标记和样式分离
+
+文本标记的缺点：
+        1、浏览器很难将文本标记显示为图像等
+        2、
+
+浏览器接受页面工作原理：
+    浏览器接受该页面并将之转换为树形结构
+每一个标记都可以看小矩形，这是一个对象。通过使用对象来表示HTML文档的一部分
+可以很容易的更改、应用样式、允许javascript访问文档
+
+DOM对象类型和属性:如HTML中的元素用Element对象类型来表示，
+文档中的文本用text类型来表示，属性用Attribute类型表示等
+
+DOM:标记中的任何内容都必须转换为某种类型的对象
+
+浏览器将页面转换为对象来表示，对象的表示是DOM树，它是一种规范
+DOM定义了对象的属性和类型，从而允许浏览器解释标记
+
+标记的每一部分都由一个对象表示，但他不是换一个任意的对象，它是特定了类型
+的对象，一个DOM节点
+基本节点类型：元素节点、文本节点和属性节点
+
+#缺少5
+
+
+
+
+#第六部分 建立基于DOM的web应用程序
+在不刷新页面的情况下使用DOM改变页网页页面
+DOM可以移动网页中的任何东西而不需要提交表单，因此足以和Ajax媲美
+
+DOM中最关键的时刻document对象，它代表整个网页，在DOM中一切都是节点
+
+
+#第七部分 在请求和响应中使用XML
+了解什么时候适合设么时候不适合使用xml
+
+
+XMLHttpRequest只不过是为客户机代码发送HTTP请求的一种方式，与xml没有太大的实质性关系，当然它可以发送和接受xml数据；XMLHttpRequest对象更多的是关于在不重新爱在页面的情况下发出请求，而不会太多的涉及XML甚至HTTP
+无论使用 Ajax 还是普通的表单 POST，甚至超链接，打交道的都是 HTTP。
+虽然 XML 可以通过 HTTP 发送，但 XML 是一种数据格式而不是传输协议。
+
+#使用XML
+    1、以XML格式从网页向服务器发送请求
+    2、以XML格式在网页中从服务器接受请求
+XML 不是一种简洁、快速和节省空间的格式，但是，和普通文本相比，XML 通常总会占用更多的空间，速度也更慢，因为需要在消息中增加 XML 所需要的标签和语义
+
+#从客户机到服务器的XML
+发送名/值对：
+    firstname=larry;
+    lastname=gullahorn;
+    street=9018 heatherhorn drive;
+    city=texas;
+    zipCodde=75080;
+传统的方法：使用普通文本发送名/值对：构造URL
+url="/scripts/saveaddress.php?firstname="+escape(firstname)+"&lastname="+escape(lastname)+"&street="+escape(street)+"&city="+escape(city)+"&state="+escape(state)+"&zipcode="+escape(zipcode);
+xhr.open("GET",url,true);
+xhr.onreadystatechange=statechange;
+xhr.send(null);
+
+采用XML格式：
+1、将数据转换为XML
+<address>
+    <firstname>larry</firstname>
+    <lastname>gullahorn</lastname>
+    <street>9018 heatherhorn drive</street>
+    <city>texas</city>
+    <zipCodde>=75080</zipCodde>
+</address>
+2、确定服务器是否能接受该格式的xml
+1、保证向其发送xml的脚本能够接受xml数据格式
+2、保证脚本认可发送数据所采用的特定xml格式和结构
+
+3、向服务器发送XML
+var firstname=larry;
+var    lastname=gullahorn;
+var    street=9018 heatherhorn drive;
+var    city=texas;
+var    zipCodde=75080;
+var xmlString="<address>"+
+    "<firstname>"+escape(firstname)+"</firstname>"+
+    "<lastname>"+escape(lastname)+"</lastname>"+
+    "<street>"+escape(state)+"</street>"+
+    "<city>"+escape(city)+"</city>"+
+    "<zipCodde>"+escape(zipCode)+"</zipCodde>"+
+"</address>";
+url="/scripts/saveaddress.php";
+xhr.open("POST",url,true);
+xhr.setRequestHeader("Content-Type","text/xml");//告诉服务器要发送的是XML而不是一般的名值对
+xhr.onreadystatechange=statechange;
+xhr.send(smlString);
+
+1、这里的另一个问题前面已经提到，即必须手工创建 XML。使用 DOM 不是一种好的选择，因为没有简单易行的办法将 DOM 对象转化成在请求中发送的字符串。
+2、除了复杂性的问题之外，和普通文本以及名/值对相比，在请求中使用 XML 实际上没有多少好处（如果有的话）。要注意，本文坚持使用前面用名/值对发送的同一些数据（请参阅清单 1）来用 XML 发送。我没有提什么数据能用 XML 但是不能用普通文本发送，这是因为实际上没有任何东西可用 XML 而不能用普通文本发送。
+因此，除非特殊情况，在请求中最好使用普通文本；
+
+
+#第八部分 在请求和响应中使用XML  
+这篇文章主要探讨在大多数情况下确实是 好主意的一种做法：
+向客户机返回 XML 响应。
+
+需要向服务器发送 XML 的所有理由都差不多可以归入以下两个基本的类别中：
+
+    1、服务器仅 接受 XML 请求。在这类情况下，您别无选择。上一期文章中介绍的基础知识应已使您掌握了发送此类请求所必需的工具。
+    2、您正在调用一个仅接受 XML 或 SOAP 请求的远程 API。这实际上就是上一种情况的特例，但值得单独拿出来提一下。如果您希望在一个异步请求中使用来自 Google 或 Amazon 的 API，就会有一些特殊的考虑事项。在下一期的文章中，我将介绍这些考虑事项，还会给出一些向 API 发送此类请求的示例
+
+从服务器接受XML
+两种方法处理一个来自服务器的XML响应：
+    1、作为碰巧格式化的xml纯文本
+    2、作为一个xml文档，由一个DOM Document对象表示
+
+#将xml当成xml
+使用responseXML属性
+function statechange(){
+    if(xhr.readyState==4 || xhr.readyState=="complete){
+       if(xhr.status==200){
+       var xmlDoc=xhr.responseXML;
+       //其他代码
+       }
+    }
+}
+进一步处理XML数据（记住xml也是一种DOM）：
+获取所有的show元素：
+    var showElements=xmlDoc.getElementsByTagName("show");
+
+遍历xml数据：
+    for(var i=0;i< showElements.length;i++){
+        var title=showElements[i].childNodes[0].value;
+        var rating=showElements[i].childNodes[1].value;
+        //处理title和rating的代码
+}
+
+返回xml的PHP脚本
+<?php
+
+// Connect to a MySQL database
+$conn = @mysql_connect("mysql.myhost.com", "username", "secret-password");
+if (!conn)
+  die("Error connecting to database: " . mysql_error());
+
+if (!mysql_select_db("television", $conn))
+  die("Error selecting TV database: " . mysql_error());
+
+// Get ratings for all TV shows in database
+$select = 'SELECT title, rating';
+$from   = '  FROM ratings';
+$queryResult = @mysql_query($select . $from);
+if (!$queryResult)
+  die("Error retrieving ratings for TV shows.');
+
+// Let the client know we're sending back XML
+header("Content-Type: text/xml");
+echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
+echo "<ratings>";
+
+while ($row = mysql_fetch_array($queryResult)) {
+  $title = $row['title'];
+  $rating = $row['rating'];
+
+  echo "<show>
+  echo "<title>" . $title . "</title>";
+  echo "<rating>" . $rating . "</rating>";
+  echo "</show>";
+}
+
+echo "</ratings>";
+
+mysql_close($conn);
+
+?>
+
+#解释xml的其他可选方法
+值得一提。那就是 JSON
+大体上，可以用 JSON 做的事，用 DOM 都可以完成，反之亦然
+
+###第九部分 使用google ajax search api
+在异步应用程序中使用公共 API
+例如，通过一个用于 Google 搜索引擎的公共 API 可以发出搜索请求，但是实际上是由 Google 的代码搜索 Google 的数据，然后将结果返回给您的程序。
+##使用Google Ajax Search API的准备工作
+#从Google获取开发者秘钥（本文着重讨论Google的Ajax  Search API）
+
+###使用JSON进行数据传输
+以原生方式操作JavaScript对象
+在大多数异步应用程序场合，总是应该首先考虑使用名称/值对，除非有某种限制迫使您转向XML，否则用不着考虑使用别的数据格式
+1、如果服务器对接受的数据有限制，那么就要使用xml格式；
+2、在大多数情况下，当需要向应用程序/客户端发送多个名称/值对时，就应该考虑使用XML格式；
+3、XML格式通常更适合用来向客户端浏览器做出响应，而不是从Ajax应用程序发出请求
+
+JSON示例：
+{"firstname":"brett","lastname":"mclaughlin","email":"xxx@xx.com"}
+
+##值和数组
+{ "people": [ 
+  { "firstName": "Brett", "lastName":"McLaughlin", "email": "brett@newInstance.com" }, 
+  { "firstName": "Jason", "lastName":"Hunter", "email": "jason@servlets.com" }, 
+  { "firstName": "Elliotte", "lastName":"Harold", "email": "elharo@macfaq.com" } 
+ ]}
+
+右如：
+ { "programmers": [ 
+  { "firstName": "Brett", "lastName":"McLaughlin", "email": "brett@newInstance.com" }, 
+  { "firstName": "Jason", "lastName":"Hunter", "email": "jason@servlets.com" }, 
+  { "firstName": "Elliotte", "lastName":"Harold", "email": "elharo@macfaq.com" } 
+ ], 
+"authors": [ 
+  { "firstName": "Isaac", "lastName": "Asimov", "genre": "science fiction" }, 
+  { "firstName": "Tad", "lastName": "Williams", "genre": "fantasy" }, 
+  { "firstName": "Frank", "lastName": "Peretti", "genre": "christian fiction" } 
+ ], 
+"musicians": [ 
+  { "firstName": "Eric", "lastName": "Clapton", "instrument": "guitar" }, 
+  { "firstName": "Sergei", "lastName": "Rachmaninoff", "instrument": "piano" } 
+ ] 
+ }
+
+##在JavaScript中使用JSON
+json是javascrpt的原生格式，因此js操作json不需要任何特殊的API和工具包
+
+var people=
+    { "programmers": [ 
+    { "firstName": "Brett", "lastName":"McLaughlin", "email": "brett@newInstance.com" }, 
+    { "firstName": "Jason", "lastName":"Hunter", "email": "jason@servlets.com" }, 
+    { "firstName": "Elliotte", "lastName":"Harold", "email": "elharo@macfaq.com" } 
+   ], 
+  "authors": [ 
+    { "firstName": "Isaac", "lastName": "Asimov", "genre": "science fiction" }, 
+    { "firstName": "Tad", "lastName": "Williams", "genre": "fantasy" }, 
+    { "firstName": "Frank", "lastName": "Peretti", "genre": "christian fiction" } 
+   ], 
+  "musicians": [ 
+    { "firstName": "Eric", "lastName": "Clapton", "instrument": "guitar" }, 
+    { "firstName": "Sergei", "lastName": "Rachmaninoff", "instrument": "piano" } 
+   ] 
+  }
+
+访问数据：
+people.programmers[0].lastname;
+修改数据：
+people.programmers[0].lastname="haha";
+转换回字符串：
+String new newJSONtext=people.toJSONString();
+##重要的是：可以将任何JavaScript对象转换为JSON文本，如：
+String newObjectInJSON=myobject.toJSONString();
+
+
+###第十一部分 服务器端的JSON 
+在服务器端脚本和程序中用JSON进行响应和回复
+
+##将JSON发给服务器
+#通过GET以名称/值对发送JSON
+*将JSON数据发给服务器的最简单方法是将其转换为文本，然后以名称/值对的形式
+进行发送
+    var people =  { "programmers": [    { "firstName": "Brett", "lastName":"McLaughlin",
+    "email": "brett@newInstance.com" },    { "firstName": "Jason", "lastName":"Hunter",
+    "email": "jason@servlets.com" },    { "firstName": "Elliotte", "lastName":"Harold",
+    "email": "elharo@macfaq.com" }   ],  "authors": [    { "firstName": "Isaac", 
+    "lastName": "Asimov", "genre": "science fiction" },    { "firstName": "Tad", 
+    "lastName": "Williams", "genre": "fantasy" },    { "firstName": "Frank", 
+    "lastName": "Peretti", "genre": "christian fiction" }   ],  "musicians": [    
+    { "firstName": "Eric", "lastName": "Clapton", "instrument": "guitar" },   
+    { "firstName": "Sergei", "lastName": "Rachmaninoff", "instrument": "piano" }   ]  }
+var url="organization.php?people="+people.toJSONString():
+xhr.open("GET",url,true);
+xhr.onreadystatechange=statechange;
+xhr.send(null);
+但却存在一个问题：在 JSON 数据中会有空格和各种字符，Web 浏览器往往要尝试对其继续编译。要确保这些字符不会在服务器上（或者在将数据发送给服务器的过程中）引起混乱，需要在 JavaScript escape() 函数中做如下添加：
+url="organization.php?people="+escape(people.toJSONString());
+该函数(escape可以处理空格、斜线和其他任何可能影响浏览器的内容，并将它们转换成 Web 可用字符（比如，空格会被转换成 %20，浏览器并不会将其视为空格处理，而是不做更改，将其直接传递到服务器）。之后，服务器会（通常自动）再把它们转换回它们传输后的本来 “面目”。
+
+这种发送的缺陷（也是GET的缺陷）：
+1、数据量大
+2、安全性
+
+##使用POST请求发送JSON数据
+var url = "organizePeople.php?timeStamp=" + new Date().getTime();
+request.open("POST", url, true);
+request.onreadystatechange = updatePage;
+request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+request.send(people.toJSONString())
+ Content-Type 头被设置为让服务器预知它能得到何种数据。在这种情况下，即为 application/x-www-form-urlencoded，它让服务器知道现在发送的是文本，正如它从常规的 HTML 表单中得到的一样。
+另一个简单提示是 URL 的末尾追加了时间。这就确保了请求不会在它第一次被发送后即缓存，而是会在此方法每次被调用后重新创建和重发；此 URL 会由于时间戳的不同而稍微有些不同。这种技巧常被用于确保到脚本的 POST 每次都会实际生成新请求且 Web 服务器不会尝试缓存来自服务器的响应。
+
+*JSON只是文本
+##在服务器上解释JSON
+处理JSON的两步骤：
+    1、针对服务端程序语言找到JSON解析器/工具箱/帮助其API
+    2、使用JSOn解析器等取得来自客户端的请求数据，并将数据转换为脚本所能理解的东西
+#寻找JSON解析器 
+#使用JSON解析器
+
+
+
+
+
+
+
 
 
