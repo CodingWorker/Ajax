@@ -1,0 +1,33 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>ajax demo</title>
+		<script>
+			var xhr=new XMLHttpRequest();
+			function send_request(){
+				var url='http://localhost:8080/index.php';
+				var oBox=document.getElementById('box');
+				if(xhr){
+					xhr.open("GET",url,true);//打开连接，true代表是异步请求
+					xhr.onreadystatechange=statechange;
+					xhr.send(null);//get请求无需发送数据
+					console.log(xhr);
+				}else{
+					console.log('invalid xhr: '+xhr);
+				}
+			}
+
+			function statechange(){
+			    if(xhr.readyState==4 || xhr.readyState=="complete"){
+			    	console.log(xhr);
+			    	var response=xhr.responseText;
+			    	document.getElementById('box').innerHTML=response;
+				}
+			}
+			</script>
+	</head>
+	<body>
+			<input type="button" name="" value="点击发送ajax" onclick="send_request()">
+			<div id="box"><div>
+	</body>
+</html>
